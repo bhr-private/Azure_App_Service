@@ -7,8 +7,8 @@ on:
   push:
     paths:
       - '**.html'
-#    branches:
-#      - main
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
