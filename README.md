@@ -17,23 +17,22 @@ See tutorial here - https://www.softwareyoga.com/docker-tomact-tutorial/
 
 # GIT
 ## create a remote repository from the current directory ( brew install gh )
-gh repo create Azure_App_Service --public --source=. --remote=upstream
+- gh repo create Azure_App_Service --public --source=. --remote=upstream
 
 ## push
-git init -b main
-git add .
-git status
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/bhr-private/Azure_App_Service.git
-git push -u origin main
+- git init -b main
+- git add .
+- git status
+- git commit -m "first commit"
+- git branch -M main
+- git remote add origin https://github.com/bhr-private/Azure_App_Service.git
+- git push -u origin main
 
 ## Change Code & Commit
-git config pull.rebase false
+- git config pull.rebase false
 
 
 # DOCKER
-
 ## Image
 - docker build -f Dockerfile --platform linux/amd64 -t tomcat-sample-x64 . 
 - docker inspect tomcat-sample-x64 | grep Architecture
@@ -74,18 +73,11 @@ git config pull.rebase false
 
 
 
-# Tomcat X64
+# MISC
 - git clone https://github.com/softwareyoga/docker-tomcat-tutorial.git
 - add ssh https://www.cyberciti.biz/faq/how-to-install-openssh-server-on-alpine-linux-including-docker/
 
-
-
-
-
 https://medium.com/@alexander.volminger/ci-cd-for-java-maven-using-github-actions-d009a7cb4b8f
-
-
-
 
 az webapp create-remote-connection --subscription 8db9a596-7fac-4304-8339-d7e866ddeaeb --resource-group learn-rg -n tomcat-sample-x64 &
 az webapp config set --resource-group learn-rg -n tomcat-sample-x64 --remote-debugging-enabled=false
