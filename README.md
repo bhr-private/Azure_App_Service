@@ -52,7 +52,7 @@ See tutorial here - https://www.softwareyoga.com/docker-tomact-tutorial/
 - az acr create --resource-group learn-rg --name learnrgacr --sku Basic
 - az acr login --name learnrgacr
 
-- ENABLE ADMIN !
+- Enable Admin OR Managed Identity, Service Principal  !
 - az acr update --resource-group learn-rg -n learnrgacr --admin-enabled true
 - az acr credential show --resource-group learn-rg -n learnrgacr 
 
@@ -74,6 +74,34 @@ See tutorial here - https://www.softwareyoga.com/docker-tomact-tutorial/
 
 
 # MISC
+## Azure Container Apps, Azure Container Instances, Azure App Services
+https://learn.microsoft.com/en-us/azure/container-apps/compare-options
+
+Azure Container Apps
+= serverless microservices, general purpose containers, powered by kubernetes
+
+Azure Container Instances
+= single pod of Hyper-V isolated containers on demand, Concepts like scale, load balancing, and certificates are not provided 
+
+Azure App Services
+= fully managed hosting for web applications
+
+## Managed Identity 
+az webapp identity assign --resource-group learn-rg --name nginx-v2 --query principalId --output tsv
+4d95c09f-5036-4d73-9b45-b00af41e77f9
+
+az acr show --resource-group learn-rg --name learnrgacr --query id --output tsv
+/subscriptions/8db9a596-7fac-4304-8339-d7e866ddeaeb/resourceGroups/learn-rg/providers/Microsoft.ContainerRegistry/registries/learnrgacr
+
+az role assignment create --assignee 4d95c09f-5036-4d73-9b45-b00af41e77f9 --scope /subscriptions/8db9a596-7fac-4304-8339-d7e866ddeaeb/resourceGroups/learn-rg/providers/Microsoft.ContainerRegistry/registries/learnrgacr --role "AcrPull"
+
+az webapp config set --resource-group learn-rg --name nginx-v2 --generic-configurations '{"acrUseManagedIdentityCreds": true}'
+
+
+
+
+
+
 - git clone https://github.com/softwareyoga/docker-tomcat-tutorial.git
 - add ssh https://www.cyberciti.biz/faq/how-to-install-openssh-server-on-alpine-linux-including-docker/
 
