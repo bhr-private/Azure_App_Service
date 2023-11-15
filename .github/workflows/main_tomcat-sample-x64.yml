@@ -1,0 +1,51 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - tomcat-sample-x64
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to registry
+      uses: docker/login-action@v2
+      with:
+        registry: https://learnrgacr.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_8477ae2d52c848249e8c17ccc9a15ca2 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_19d186fc06384bf4a8589b1f0ecc48f8 }}
+
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: learnrgacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_8477ae2d52c848249e8c17ccc9a15ca2 }}/tomcat-sample-x64:${{ github.sha }}
+        file: ./Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'tomcat-sample-x64'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_34b2eb60668942ae9bc99d81d62bbe1e }}
+        images: 'learnrgacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_8477ae2d52c848249e8c17ccc9a15ca2 }}/tomcat-sample-x64:${{ github.sha }}'
