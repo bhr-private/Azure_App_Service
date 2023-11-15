@@ -22,9 +22,10 @@ gh repo create Azure_App_Service --public --source=. --remote=upstream
 ## push
 git init -b main
 git add .
+git status
 git commit -m "first commit"
 git branch -M main
-git remote add origin https://github.com/bhr-private/Azure-Docker.git
+git remote add origin https://github.com/bhr-private/Azure_App_Service.git
 git push -u origin main
 
 ## Change Code & Commit
