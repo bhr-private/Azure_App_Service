@@ -11,6 +11,7 @@ LABEL maintainer="bernhard@hensler.net"
 
 ADD sample.war /usr/local/tomcat/webapps/
 ADD helloworld.html /usr/local/tomcat/webapps/examples/
+ADD helloworld_copy.html /usr/local/tomcat/webapps/examples/
 
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
