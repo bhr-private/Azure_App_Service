@@ -5,8 +5,10 @@ name: Build and deploy container app to Azure Web App - tomcat-sample-x64
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - '**.html'
+#    branches:
+#      - main
   workflow_dispatch:
 
 jobs:
